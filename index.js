@@ -21,7 +21,28 @@ let allowShift = true;
 leftSlide.style.top = `-${100 * (slidesLength)}vh`
 rightSlide.style.top = `-100vh`
 
-sliderContainer.addEventListener('click', changeSlide)
+sliderContainer.addEventListener('click', changeSlide);
+sliderContainer.addEventListener('mousedown', (evt) => {
+  const startPos = evt.clientY;
+  sliderContainer.addEventListener('mouseup', (evt) => {
+    let endPos = evt.clientY;
+    if (startPos - endPos < -100) {
+      leftSlide.classList.add('shifting');
+      rightSlide.classList.add('shifting');
+      if(!allowShift) return;
+      slideDown();
+      allowShift = false;
+    }
+    else if (startPos - endPos > 100) {
+      leftSlide.classList.add('shifting');
+      rightSlide.classList.add('shifting');
+      if(!allowShift) return;
+      slideUp();
+      allowShift = false;
+    }
+    else return;
+  })
+})
 
 function changeSlide(event) {
   leftSlide.classList.add('shifting');
@@ -29,19 +50,33 @@ function changeSlide(event) {
 
   const target = event.target.closest('.button');
 
-  if(!allowShift) return;
+  if(!allowShift || !target) return;
 
   if (target.classList.contains('up-button')) {
-    currentSlide++;
-    rightSlide.style.top = `-${100 * (currentSlide + 1)}vh`;
-    leftSlide.style.top = `-${100 * (slidesLength - currentSlide)}vh`;
+    slideUp();
   }
   else {
-    currentSlide--;
-    rightSlide.style.top = `-${100 * (currentSlide + 1)}vh`;
-    leftSlide.style.top = `-${100 * (slidesLength - currentSlide)}vh`;
+    slideDown();
   }
 
+  allowShift = false;
+}
+
+function slideUp() {
+  leftSlide.classList.add('shifting');
+  rightSlide.classList.add('shifting');
+  currentSlide++;
+  rightSlide.style.top = `-${100 * (currentSlide + 1)}vh`;
+  leftSlide.style.top = `-${100 * (slidesLength - currentSlide)}vh`;
+  allowShift = false;
+}
+
+function slideDown() {
+  leftSlide.classList.add('shifting');
+  rightSlide.classList.add('shifting');
+  currentSlide--;
+  rightSlide.style.top = `-${100 * (currentSlide + 1)}vh`;
+  leftSlide.style.top = `-${100 * (slidesLength - currentSlide)}vh`;
   allowShift = false;
 }
 
