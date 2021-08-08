@@ -4,6 +4,7 @@ const rightSlide = document.querySelector('.right-slide');
 const leftSlides = leftSlide.querySelectorAll('div');
 const rightSlides = rightSlide.querySelectorAll('div');
 const slidesLength = leftSlides.length;
+let startPosX, startPosY, endPosX, endPosY
 
 const cloneFirstLeft = leftSlides[0].cloneNode(true);
 const cloneLastLeft = leftSlides[slidesLength - 1].cloneNode(true);
@@ -22,27 +23,8 @@ leftSlide.style.top = `-${100 * (slidesLength)}vh`
 rightSlide.style.top = `-100vh`
 
 sliderContainer.addEventListener('click', changeSlide);
-sliderContainer.addEventListener('mousedown', (evt) => {
-  const startPos = evt.clientY;
-  sliderContainer.addEventListener('mouseup', (evt) => {
-    let endPos = evt.clientY;
-    if (startPos - endPos < -100) {
-      leftSlide.classList.add('shifting');
-      rightSlide.classList.add('shifting');
-      if(!allowShift) return;
-      slideDown();
-      allowShift = false;
-    }
-    else if (startPos - endPos > 100) {
-      leftSlide.classList.add('shifting');
-      rightSlide.classList.add('shifting');
-      if(!allowShift) return;
-      slideUp();
-      allowShift = false;
-    }
-    else return;
-  })
-})
+sliderContainer.addEventListener('pointerdown', pointerDown)
+sliderContainer.addEventListener('pointerup', pointerUp)
 
 function changeSlide(event) {
   leftSlide.classList.add('shifting');
@@ -60,6 +42,25 @@ function changeSlide(event) {
   }
 
   allowShift = false;
+} 
+
+function pointerDown(evt) {
+  startPosX = evt.clientX;
+  startPosY = evt.clientY;
+  console.log('test')
+}
+
+function pointerUp(evt) {
+  endPosX = evt.clientX;
+  endPosY = evt.clientY;
+  if (Math.abs(startPosX - endPosX) > 50 || Math.abs(startPosY - endPosY) < 100) return;
+  if (startPosY - endPosY < 0) {
+    slideDown();
+  }
+  else if (startPosY - endPosY > 0) {
+    slideUp();
+  }
+  else return;
 }
 
 function slideUp() {
