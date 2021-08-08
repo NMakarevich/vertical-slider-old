@@ -23,8 +23,19 @@ leftSlide.style.top = `-${100 * (slidesLength)}vh`
 rightSlide.style.top = `-100vh`
 
 sliderContainer.addEventListener('click', changeSlide);
-sliderContainer.addEventListener('pointerdown', pointerDown)
-sliderContainer.addEventListener('pointerup', pointerUp)
+sliderContainer.addEventListener('pointerdown', pointerDown);
+sliderContainer.addEventListener('pointerup', pointerUp);
+document.addEventListener('keyup', keyUp);
+
+function keyUp(event) {
+  const keyCode = event.code;
+  if (keyCode == 'ArrowUp') {
+    slideUp();
+  }
+  if(keyCode == 'ArrowDown') {
+    slideDown();
+  }
+}
 
 function changeSlide(event) {
   leftSlide.classList.add('shifting');
@@ -47,7 +58,6 @@ function changeSlide(event) {
 function pointerDown(evt) {
   startPosX = evt.clientX;
   startPosY = evt.clientY;
-  console.log('test')
 }
 
 function pointerUp(evt) {
