@@ -82,8 +82,12 @@ h2 {
   overflow: hidden;
 }
 
-.first-slider {
+.vertical-slider .first-slider {
   flex-grow: 1;
+}
+
+.horizontal-slider .first-slider {
+  flex-grow: 2;
 }
 
 .second-slider {
