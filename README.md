@@ -4,9 +4,9 @@
 
 1. Only vertical move
 2. Moving by:
-  1. buttons on slider,
-  2. keyboard arrows Up and Down,
-  3. mouse swipes.
+   - buttons on slider,
+   - keyboard arrows Up and Down,
+   - mouse swipes.
 
 [View slider](https://nmakarevich.github.io/vertical-slider/vertical-slider_1/)
 
